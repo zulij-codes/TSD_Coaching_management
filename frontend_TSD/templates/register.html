@@ -1,0 +1,120 @@
+<!-- templates/register.html -->
+{% extends "base.html" %}
+
+{% block title %}{{ role|capitalize }} Registration - Gurukul{% endblock %}
+
+{% block extra_css %}
+<style>
+    .login-container {
+        max-width: 450px;
+        margin: 4rem auto;
+        background: #fff;
+        padding: 3rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+    
+    .login-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .login-header h2 {
+        color: #1e3c72;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #333;
+        font-weight: 500;
+    }
+    
+    .form-group input {
+        width: 100%;
+        padding: 0.8rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+    }
+    
+    .form-group input:focus {
+        outline: none;
+        border-color: #1e3c72;
+    }
+    
+    .btn-submit {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: transform 0.3s;
+    }
+    
+    .btn-submit:hover {
+        transform: translateY(-2px);
+    }
+    
+    .login-link {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #666;
+    }
+    
+    .login-link a {
+        color: #1e3c72;
+        text-decoration: none;
+        font-weight: 500;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-header">
+        <h2>{{ role|capitalize }} Registration</h2>
+        <p>Create your account to get started.</p>
+    </div>
+    
+    <form method="POST">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        
+        {% if role == 'student' %}
+        <div class="form-group">
+            <label for="reference_id">Student ID</label>
+            <input type="text" id="reference_id" name="reference_id" placeholder="e.g., S01" required>
+        </div>
+        {% elif role == 'teacher' %}
+        <div class="form-group">
+            <label for="reference_id">Faculty ID</label>
+            <input type="text" id="reference_id" name="reference_id" placeholder="e.g., F001" required>
+        </div>
+        {% endif %}
+        
+        <button type="submit" class="btn-submit">Register</button>
+    </form>
+    
+    <div class="login-link">
+        Already have an account? <a href="{{ url_for('login', role=role) }}">Login here</a>
+    </div>
+</div>
+{% endblock %}

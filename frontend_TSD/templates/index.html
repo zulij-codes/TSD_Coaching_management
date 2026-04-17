@@ -1,0 +1,328 @@
+<!-- templates/index.html -->
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    .hero {
+        background: linear-gradient(135deg, rgba(30,60,114,0.9), rgba(42,82,152,0.9)), 
+                    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%231e3c72" width="1200" height="600"/><g fill-opacity="0.1"><circle fill="%23fff" cx="200" cy="100" r="80"/><circle fill="%23fff" cx="900" cy="400" r="100"/><circle fill="%23fff" cx="600" cy="200" r="60"/></g></svg>');
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+        padding: 6rem 2rem;
+        text-align: center;
+        min-height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    
+    .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        animation: fadeInDown 1s ease;
+    }
+    
+    .hero p {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        animation: fadeInUp 1s ease 0.3s backwards;
+    }
+    
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .login-section {
+        display: flex;
+        gap: 2rem;
+        margin: 3rem auto;
+        max-width: 1000px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .login-card {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        flex: 1;
+        min-width: 280px;
+        max-width: 300px;
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .login-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    .login-card h3 {
+        color: #1e3c72;
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+    }
+    
+    .login-card .icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+    }
+    
+    .btn {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 25px;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        margin: 0.5rem;
+    }
+    
+    .btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(30,60,114,0.3);
+    }
+    
+    .section {
+        padding: 4rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .section h2 {
+        color: #1e3c72;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .about-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .feature-card {
+        background: #f8f9fa;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .feature-card h3 {
+        color: #1e3c72;
+        margin-bottom: 1rem;
+    }
+    
+    .success-stories {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 3rem;
+        border-radius: 15px;
+        margin: 2rem 0;
+    }
+    
+    .success-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .success-card {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .success-card .number {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #1e3c72;
+        margin-bottom: 0.5rem;
+    }
+    
+    .contact-info {
+        background: #fff;
+        padding: 3rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        max-width: 600px;
+        margin: 2rem auto;
+    }
+    
+    .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        font-size: 1.1rem;
+    }
+    
+    .contact-item .icon {
+        font-size: 1.5rem;
+        color: #1e3c72;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>Welcome to GURUKUL COACHING CLASSES</h1>
+    <p>Shaping Tomorrow's Leaders Through Excellence in Education</p>
+</div>
+
+<div class="login-section">
+    <div class="login-card">
+        <div class="icon">👨‍💼</div>
+        <h3>Admin Portal</h3>
+        <p>Manage all operations</p>
+        <a href="{{ url_for('login', role='admin') }}" class="btn">Login</a>
+        <a href="{{ url_for('register', role='admin') }}" class="btn">Register</a>
+    </div>
+    
+    <div class="login-card">
+        <div class="icon">👨‍🏫</div>
+        <h3>Teacher Portal</h3>
+        <p>Educate and inspire</p>
+        <a href="{{ url_for('login', role='teacher') }}" class="btn">Login</a>
+        <a href="{{ url_for('register', role='teacher') }}" class="btn">Register</a>
+    </div>
+    
+    <div class="login-card">
+        <div class="icon">👨‍🎓</div>
+        <h3>Student Portal</h3>
+        <p>Learn and grow</p>
+        <a href="{{ url_for('login', role='student') }}" class="btn">Login</a>
+        <a href="{{ url_for('register', role='student') }}" class="btn">Register</a>
+    </div>
+</div>
+
+<div class="section" id="home">
+    <h2>About Gurukul Coaching Classes</h2>
+    <p style="text-align: center; font-size: 1.2rem; color: #555; margin-bottom: 2rem;">
+        Gurukul Coaching Classes is a premier institute dedicated to preparing aspirants for competitive examinations 
+        including UPSC CSE, MPSC, NDA, and CDS. With a team of expert faculty and a proven track record, we provide 
+        comprehensive coaching that combines traditional wisdom with modern teaching methodologies.
+    </p>
+    
+    <div class="success-stories">
+        <h3 style="text-align: center; color: #1e3c72; font-size: 2rem; margin-bottom: 1rem;">Our Success Stories</h3>
+        <div class="success-grid">
+            <div class="success-card">
+                <div class="number">500+</div>
+                <p>Successful Selections</p>
+            </div>
+            <div class="success-card">
+                <div class="number">95%</div>
+                <p>Pass Rate</p>
+            </div>
+            <div class="success-card">
+                <div class="number">50+</div>
+                <p>Expert Faculty</p>
+            </div>
+            <div class="success-card">
+                <div class="number">15+</div>
+                <p>Years of Excellence</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section" id="about">
+    <h2>Why Choose Us?</h2>
+    <div class="about-content">
+        <div class="feature-card">
+            <h3>📚 Comprehensive Curriculum</h3>
+            <p>Our meticulously designed courses cover all aspects of competitive exams, ensuring complete preparation for prelims, mains, and interviews.</p>
+        </div>
+        <div class="feature-card">
+            <h3>👥 Expert Faculty</h3>
+            <p>Learn from experienced educators who are subject matter experts with proven track records in guiding successful candidates.</p>
+        </div>
+        <div class="feature-card">
+            <h3>📊 Regular Assessments</h3>
+            <p>Periodic tests and mock exams help track progress and identify areas for improvement, ensuring exam readiness.</p>
+        </div>
+        <div class="feature-card">
+            <h3>🎯 Personalized Attention</h3>
+            <p>Small batch sizes ensure individual attention to each student, addressing their unique learning needs and challenges.</p>
+        </div>
+        <div class="feature-card">
+            <h3>📖 Study Materials</h3>
+            <p>Access to comprehensive study materials, current affairs updates, and previous year question papers for thorough preparation.</p>
+        </div>
+        <div class="feature-card">
+            <h3>💪 Motivational Environment</h3>
+            <p>A supportive learning atmosphere that encourages consistent effort, discipline, and the development of a winning mindset.</p>
+        </div>
+    </div>
+</div>
+
+<div class="section" id="contact">
+    <h2>Contact Us</h2>
+    <div class="contact-info">
+        <div class="contact-item">
+            <span class="icon">📧</span>
+            <div>
+                <strong>Email:</strong><br>
+                info@gurukulcoaching.edu<br>
+                admissions@gurukulcoaching.edu
+            </div>
+        </div>
+        <div class="contact-item">
+            <span class="icon">📱</span>
+            <div>
+                <strong>Phone:</strong><br>
+                +91 712-2345678<br>
+                +91 9876543210
+            </div>
+        </div>
+        <div class="contact-item">
+            <span class="icon">📍</span>
+            <div>
+                <strong>Address:</strong><br>
+                Gurukul Coaching Classes<br>
+                Civil Lines, Near Variety Square<br>
+                Nagpur, Maharashtra - 440001
+            </div>
+        </div>
+        <div class="contact-item">
+            <span class="icon">🕒</span>
+            <div>
+                <strong>Office Hours:</strong><br>
+                Monday - Saturday: 8:00 AM - 8:00 PM<br>
+                Sunday: 9:00 AM - 5:00 PM
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

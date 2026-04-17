@@ -1,0 +1,753 @@
+<!-- templates/admin_dashboard.html -->
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Gurukul{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dashboard {
+        padding: 2rem;
+    }
+    
+    .dashboard-header {
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        color: #fff;
+        padding: 2rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+    }
+    
+    .tabs {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid #e0e0e0;
+        flex-wrap: wrap;
+    }
+    
+    .tab {
+        padding: 1rem 2rem;
+        background: #f8f9fa;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.3s;
+    }
+    
+    .tab.active {
+        background: #1e3c72;
+        color: #fff;
+    }
+    
+    .tab-content {
+        display: none;
+    }
+    
+    .tab-content.active {
+        display: block;
+    }
+    
+    .data-table {
+        width: 100%;
+        background: #fff;
+        border-radius: 10px;
+        overflow-x: auto;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .data-table table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 800px;
+    }
+    
+    .data-table th {
+        background: #1e3c72;
+        color: #fff;
+        padding: 1rem;
+        text-align: left;
+        position: sticky;
+        top: 0;
+    }
+    
+    .data-table td {
+        padding: 1rem;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .data-table tr:hover {
+        background: #f8f9fa;
+    }
+    
+    .btn-action {
+        padding: 0.5rem 1rem;
+        margin: 0 0.25rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .btn-edit {
+        background: #28a745;
+        color: #fff;
+    }
+    
+    .btn-delete {
+        background: #dc3545;
+        color: #fff;
+    }
+    
+    .btn-add {
+        background: #007bff;
+        color: #fff;
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 1rem;
+    }
+    
+    .form-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        overflow-y: auto;
+    }
+    
+    .form-modal.active {
+        display: flex;
+    }
+    
+    .modal-content {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 10px;
+        max-width: 700px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        margin: 2rem;
+    }
+    
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+    
+    .form-group input, .form-group select, .form-group textarea {
+        width: 100%;
+        padding: 0.8rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+    
+    .btn-submit {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        margin-top: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="dashboard-header">
+        <h1>Admin Dashboard</h1>
+        <p>Manage all aspects of Gurukul Coaching Classes</p>
+    </div>
+    
+    <div class="tabs">
+        <button class="tab active" onclick="showTab('students')">Students ({{ students|length }})</button>
+        <button class="tab" onclick="showTab('faculty')">Faculty ({{ faculty|length }})</button>
+        <button class="tab" onclick="showTab('courses')">Courses ({{ courses|length }})</button>
+        <button class="tab" onclick="showTab('batches')">Batches ({{ batches|length }})</button>
+        <button class="tab" onclick="showTab('enrollments')">Enrollments ({{ enrollments|length }})</button>
+        <button class="tab" onclick="showTab('payments')">Payments ({{ payments|length }})</button>
+    </div>
+    
+    <!-- Students Tab -->
+    <div id="students" class="tab-content active">
+        <button class="btn-add" onclick="showAddForm('student')">+ Add Student</button>
+        <div class="data-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Gender</th>
+                        <th>Email</th>
+                        <th>Contact</th>
+                        <th>Category</th>
+                        <th>DOB</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student.student_id }}</td>
+                        <td>{{ student.student_name }}</td>
+                        <td>{{ student.gender }}</td>
+                        <td>{{ student.email_id }}</td>
+                        <td>{{ student.contact_number }}</td>
+                        <td>{{ student.category }}</td>
+                        <td>{{ student.date_of_birth }}</td>
+                        <td>
+                            <button class="btn-action btn-edit" onclick="editStudent('{{ student.student_id }}', '{{ student.student_name }}', '{{ student.gender }}', '{{ student.email_id }}', '{{ student.contact_number }}', '{{ student.category }}', '{{ student.date_of_birth }}', '{{ student.address }}')">Edit</button>
+                            <a href="{{ url_for('delete_student', student_id=student.student_id) }}" 
+                               onclick="return confirm('Are you sure?')" 
+                               class="btn-action btn-delete">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Faculty Tab -->
+    <div id="faculty" class="tab-content">
+        <button class="btn-add" onclick="showAddForm('faculty')">+ Add Faculty</button>
+        <div class="data-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Education</th>
+                        <th>Specialization</th>
+                        <th>Category</th>
+                        <th>Contact</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fac in faculty %}
+                    <tr>
+                        <td>{{ fac.faculty_id }}</td>
+                        <td>{{ fac.full_name }}</td>
+                        <td>{{ fac.education }}</td>
+                        <td>{{ fac.specialization }}</td>
+                        <td>{{ fac.category }}</td>
+                        <td>{{ fac.contact_details }}</td>
+                        <td>
+                            <button class="btn-action btn-edit" onclick="editFaculty('{{ fac.faculty_id }}', '{{ fac.full_name }}', '{{ fac.education }}', '{{ fac.specialization }}', '{{ fac.category }}', '{{ fac.contact_details }}')">Edit</button>
+                            <a href="{{ url_for('delete_faculty', faculty_id=fac.faculty_id) }}" 
+                               onclick="return confirm('Are you sure?')" 
+                               class="btn-action btn-delete">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Courses Tab -->
+    <div id="courses" class="tab-content">
+        <button class="btn-add" onclick="showAddForm('course')">+ Add Course</button>
+        <div class="data-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Duration</th>
+                        <th>Fees</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in courses %}
+                    <tr>
+                        <td>{{ course.course_code }}</td>
+                        <td>{{ course.course_name }}</td>
+                        <td>{{ course.course_category }}</td>
+                        <td>{{ course.course_duration }}</td>
+                        <td>₹{{ course.course_fees }}</td>
+                        <td>
+                            <button class="btn-action btn-edit" onclick="editCourse('{{ course.course_code }}', '{{ course.course_name }}', '{{ course.course_category }}', '{{ course.course_description }}', '{{ course.course_duration }}', '{{ course.course_fees }}')">Edit</button>
+                            <a href="{{ url_for('delete_course', course_code=course.course_code) }}" 
+                               onclick="return confirm('Are you sure?')" 
+                               class="btn-action btn-delete">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Batches Tab -->
+    <div id="batches" class="tab-content">
+        <button class="btn-add" onclick="showAddForm('batch')">+ Add Batch</button>
+        <div class="data-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Timings</th>
+                        <th>Courses</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for batch in batches %}
+                    <tr>
+                        <td>{{ batch.batch_id }}</td>
+                        <td>{{ batch.start_date }}</td>
+                        <td>{{ batch.end_date }}</td>
+                        <td>{{ batch.timings }}</td>
+                        <td>{{ batch.course_code }}</td>
+                        <td>
+                            <button class="btn-action btn-edit" onclick="editBatch('{{ batch.batch_id }}', '{{ batch.start_date }}', '{{ batch.end_date }}', '{{ batch.timings }}', '{{ batch.course_code }}')">Edit</button>
+                            <a href="{{ url_for('delete_batch', batch_id=batch.batch_id) }}" 
+                               onclick="return confirm('Are you sure?')" 
+                               class="btn-action btn-delete">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Enrollments Tab -->
+    <div id="enrollments" class="tab-content">
+        <button class="btn-add" onclick="showAddForm('enrollment')">+ Add Enrollment</button>
+        <div class="data-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Student ID</th>
+                        <th>Batch ID</th>
+                        <th>Enrollment Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for enrollment in enrollments %}
+                    <tr>
+                        <td>{{ enrollment.enrollment_id }}</td>
+                        <td>{{ enrollment.student_id }}</td>
+                        <td>{{ enrollment.batch_id }}</td>
+                        <td>{{ enrollment.enrollment_date }}</td>
+                        <td>{{ enrollment.status }}</td>
+                        <td>
+                            <a href="{{ url_for('delete_enrollment', enrollment_id=enrollment.enrollment_id) }}" 
+                               onclick="return confirm('Are you sure?')" 
+                               class="btn-action btn-delete">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Payments Tab -->
+    <div id="payments" class="tab-content">
+        <button class="btn-add" onclick="showAddForm('payment')">+ Add Payment</button>
+        <div class="data-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Student ID</th>
+                        <th>Amount</th>
+                        <th>Payment Date</th>
+                        <th>Mode</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payment in payments %}
+                    <tr>
+                        <td>{{ payment.transaction_id }}</td>
+                        <td>{{ payment.student_id }}</td>
+                        <td>₹{{ payment.amount }}</td>
+                        <td>{{ payment.payment_date }}</td>
+                        <td>{{ payment.payment_mode }}</td>
+                        <td>{{ payment.status }}</td>
+                        <td>
+                            <a href="{{ url_for('delete_payment', transaction_id=payment.transaction_id) }}" 
+                               onclick="return confirm('Are you sure?')" 
+                               class="btn-action btn-delete">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Student Modal -->
+<div id="studentModal" class="form-modal">
+    <div class="modal-content">
+        <h2 id="studentModalTitle">Add New Student</h2>
+        <form id="studentForm" method="POST" action="{{ url_for('add_student') }}">
+            <input type="hidden" id="student_edit_id" name="student_edit_id">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Student ID</label>
+                    <input type="text" id="student_id" name="student_id" required>
+                </div>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="student_name" name="student_name" required>
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select id="student_gender" name="gender">
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="student_email" name="email_id">
+                </div>
+                <div class="form-group">
+                    <label>Contact</label>
+                    <input type="text" id="student_contact" name="contact_number">
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <input type="text" id="student_category" name="category">
+                </div>
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="text" id="student_dob" name="date_of_birth" placeholder="MM/DD/YYYY">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Address</label>
+                <textarea id="student_address" name="address" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn-submit">Save Student</button>
+            <button type="button" onclick="closeModal('studentModal')" class="btn-submit" style="background: #6c757d;">Cancel</button>
+        </form>
+    </div>
+</div>
+
+<!-- Faculty Modal -->
+<div id="facultyModal" class="form-modal">
+    <div class="modal-content">
+        <h2 id="facultyModalTitle">Add New Faculty</h2>
+        <form id="facultyForm" method="POST" action="{{ url_for('add_faculty') }}">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Faculty ID</label>
+                    <input type="text" id="faculty_id" name="faculty_id" required>
+                </div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="faculty_name" name="full_name" required>
+                </div>
+                <div class="form-group">
+                    <label>Education</label>
+                    <input type="text" id="faculty_education" name="education">
+                </div>
+                <div class="form-group">
+                    <label>Specialization</label>
+                    <input type="text" id="faculty_specialization" name="specialization">
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <input type="text" id="faculty_category" name="category">
+                </div>
+                <div class="form-group">
+                    <label>Contact Details</label>
+                    <input type="text" id="faculty_contact" name="contact_details">
+                </div>
+            </div>
+            <button type="submit" class="btn-submit">Save Faculty</button>
+            <button type="button" onclick="closeModal('facultyModal')" class="btn-submit" style="background: #6c757d;">Cancel</button>
+        </form>
+    </div>
+</div>
+
+<!-- Course Modal -->
+<div id="courseModal" class="form-modal">
+    <div class="modal-content">
+        <h2 id="courseModalTitle">Add New Course</h2>
+        <form id="courseForm" method="POST" action="{{ url_for('add_course') }}">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Course Code</label>
+                    <input type="text" id="course_code" name="course_code" required>
+                </div>
+                <div class="form-group">
+                    <label>Course Name</label>
+                    <input type="text" id="course_name" name="course_name" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <input type="text" id="course_category" name="course_category">
+                </div>
+                <div class="form-group">
+                    <label>Duration</label>
+                    <input type="text" id="course_duration" name="course_duration">
+                </div>
+                <div class="form-group">
+                    <label>Fees</label>
+                    <input type="number" id="course_fees" name="course_fees">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="course_description" name="course_description" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn-submit">Save Course</button>
+            <button type="button" onclick="closeModal('courseModal')" class="btn-submit" style="background: #6c757d;">Cancel</button>
+        </form>
+    </div>
+</div>
+
+<!-- Batch Modal -->
+<div id="batchModal" class="form-modal">
+    <div class="modal-content">
+        <h2 id="batchModalTitle">Add New Batch</h2>
+        <form id="batchForm" method="POST" action="{{ url_for('add_batch') }}">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Batch ID</label>
+                    <input type="text" id="batch_id" name="batch_id" required>
+                </div>
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <input type="text" id="batch_start" name="start_date" placeholder="MM/DD/YYYY">
+                </div>
+                <div class="form-group">
+                    <label>End Date</label>
+                    <input type="text" id="batch_end" name="end_date" placeholder="MM/DD/YYYY">
+                </div>
+                <div class="form-group">
+                    <label>Timings</label>
+                    <input type="text" id="batch_timings" name="timings">
+                </div>
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label>Course Code(s)</label>
+                    <input type="text" id="batch_courses" name="course_code" placeholder="e.g., C001+C002">
+                </div>
+            </div>
+            <button type="submit" class="btn-submit">Save Batch</button>
+            <button type="button" onclick="closeModal('batchModal')" class="btn-submit" style="background: #6c757d;">Cancel</button>
+        </form>
+    </div>
+</div>
+
+<!-- Enrollment Modal -->
+<div id="enrollmentModal" class="form-modal">
+    <div class="modal-content">
+        <h2>Add New Enrollment</h2>
+        <form method="POST" action="{{ url_for('add_enrollment') }}">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Student ID</label>
+                    <input type="text" name="student_id" required>
+                </div>
+                <div class="form-group">
+                    <label>Batch ID</label>
+                    <input type="text" name="batch_id" required>
+                </div>
+                <div class="form-group">
+                    <label>Enrollment Date</label>
+                    <input type="text" name="enrollment_date" placeholder="MM/DD/YYYY">
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status">
+                        <option>Active</option>
+                        <option>Completed</option>
+                        <option>Dropped</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn-submit">Save Enrollment</button>
+            <button type="button" onclick="closeModal('enrollmentModal')" class="btn-submit" style="background: #6c757d;">Cancel</button>
+        </form>
+    </div>
+</div>
+
+<!-- Payment Modal -->
+<div id="paymentModal" class="form-modal">
+    <div class="modal-content">
+        <h2>Add New Payment</h2>
+        <form method="POST" action="{{ url_for('add_payment') }}">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Student ID</label>
+                    <input type="text" name="student_id" required>
+                </div>
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="number" name="amount" required>
+                </div>
+                <div class="form-group">
+                    <label>Payment Date</label>
+                    <input type="text" name="payment_date" placeholder="MM/DD/YYYY">
+                </div>
+                <div class="form-group">
+                    <label>Payment Mode</label>
+                    <select name="payment_mode">
+                        <option>Cash</option>
+                        <option>Credit Card</option>
+                        <option>Debit Card</option>
+                        <option>UPI</option>
+                        <option>Bank Transfer</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status">
+                        <option>Completed</option>
+                        <option>Pending</option>
+                        <option>Failed</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn-submit">Save Payment</button>
+            <button type="button" onclick="closeModal('paymentModal')" class="btn-submit" style="background: #6c757d;">Cancel</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function showTab(tabName) {
+        const tabs = document.querySelectorAll('.tab');
+        const contents = document.querySelectorAll('.tab-content');
+        
+        tabs.forEach(tab => tab.classList.remove('active'));
+        contents.forEach(content => content.classList.remove('active'));
+        
+        event.target.classList.add('active');
+        document.getElementById(tabName).classList.add('active');
+    }
+    
+    function showAddForm(type) {
+        if (type === 'student') {
+            document.getElementById('studentModalTitle').textContent = 'Add New Student';
+            document.getElementById('studentForm').action = "{{ url_for('add_student') }}";
+            document.getElementById('studentForm').reset();
+            document.getElementById('student_id').readOnly = false;
+            document.getElementById('studentModal').classList.add('active');
+        } else if (type === 'faculty') {
+            document.getElementById('facultyModalTitle').textContent = 'Add New Faculty';
+            document.getElementById('facultyForm').action = "{{ url_for('add_faculty') }}";
+            document.getElementById('facultyForm').reset();
+            document.getElementById('faculty_id').readOnly = false;
+            document.getElementById('facultyModal').classList.add('active');
+        } else if (type === 'course') {
+            document.getElementById('courseModalTitle').textContent = 'Add New Course';
+            document.getElementById('courseForm').action = "{{ url_for('add_course') }}";
+            document.getElementById('courseForm').reset();
+            document.getElementById('course_code').readOnly = false;
+            document.getElementById('courseModal').classList.add('active');
+        } else if (type === 'batch') {
+            document.getElementById('batchModalTitle').textContent = 'Add New Batch';
+            document.getElementById('batchForm').action = "{{ url_for('add_batch') }}";
+            document.getElementById('batchForm').reset();
+            document.getElementById('batch_id').readOnly = false;
+            document.getElementById('batchModal').classList.add('active');
+        } else if (type === 'enrollment') {
+            document.getElementById('enrollmentModal').classList.add('active');
+        } else if (type === 'payment') {
+            document.getElementById('paymentModal').classList.add('active');
+        }
+    }
+    
+    function editStudent(id, name, gender, email, contact, category, dob, address) {
+        document.getElementById('studentModalTitle').textContent = 'Edit Student';
+        document.getElementById('studentForm').action = "{{ url_for('edit_student', student_id='PLACEHOLDER') }}".replace('PLACEHOLDER', id);
+        document.getElementById('student_id').value = id;
+        document.getElementById('student_id').readOnly = true;
+        document.getElementById('student_name').value = name;
+        document.getElementById('student_gender').value = gender;
+        document.getElementById('student_email').value = email;
+        document.getElementById('student_contact').value = contact;
+        document.getElementById('student_category').value = category;
+        document.getElementById('student_dob').value = dob;
+        document.getElementById('student_address').value = address;
+        document.getElementById('studentModal').classList.add('active');
+    }
+    
+    function editFaculty(id, name, education, specialization, category, contact) {
+        document.getElementById('facultyModalTitle').textContent = 'Edit Faculty';
+        document.getElementById('facultyForm').action = "{{ url_for('edit_faculty', faculty_id='PLACEHOLDER') }}".replace('PLACEHOLDER', id);
+        document.getElementById('faculty_id').value = id;
+        document.getElementById('faculty_id').readOnly = true;
+        document.getElementById('faculty_name').value = name;
+        document.getElementById('faculty_education').value = education;
+        document.getElementById('faculty_specialization').value = specialization;
+        document.getElementById('faculty_category').value = category;
+        document.getElementById('faculty_contact').value = contact;
+        document.getElementById('facultyModal').classList.add('active');
+    }
+    
+    function editCourse(code, name, category, description, duration, fees) {
+        document.getElementById('courseModalTitle').textContent = 'Edit Course';
+        document.getElementById('courseForm').action = "{{ url_for('edit_course', course_code='PLACEHOLDER') }}".replace('PLACEHOLDER', code);
+        document.getElementById('course_code').value = code;
+        document.getElementById('course_code').readOnly = true;
+        document.getElementById('course_name').value = name;
+        document.getElementById('course_category').value = category;
+        document.getElementById('course_description').value = description;
+        document.getElementById('course_duration').value = duration;
+        document.getElementById('course_fees').value = fees;
+        document.getElementById('courseModal').classList.add('active');
+    }
+    
+    function editBatch(id, start, end, timings, courses) {
+        document.getElementById('batchModalTitle').textContent = 'Edit Batch';
+        document.getElementById('batchForm').action = "{{ url_for('edit_batch', batch_id='PLACEHOLDER') }}".replace('PLACEHOLDER', id);
+        document.getElementById('batch_id').value = id;
+        document.getElementById('batch_id').readOnly = true;
+        document.getElementById('batch_start').value = start;
+        document.getElementById('batch_end').value = end;
+        document.getElementById('batch_timings').value = timings;
+        document.getElementById('batch_courses').value = courses;
+        document.getElementById('batchModal').classList.add('active');
+    }
+    
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.remove('active');
+    }
+</script>
+{% endblock %}
