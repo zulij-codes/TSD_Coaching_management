@@ -181,15 +181,15 @@
 <div class="dashboard">
     <div class="dashboard-header">
         <h1>Teacher Dashboard</h1>
-        <p>Welcome back, {{ session.username }}!</p>
+        <p>Welcome back, {{ session.username }} }}!</p>
     </div>
     
     <div class="tabs">
-        <button class="tab active" onclick="showTab('attendance')">Attendance ({{ attendance_records|length }})</button>
-        <button class="tab" onclick="showTab('exams')">Exam Schedule ({{ exam_schedules|length }})</button>
-        <button class="tab" onclick="showTab('results')">Exam Results ({{ exam_results|length }})</button>
-        <button class="tab" onclick="showTab('materials')">Study Materials ({{ study_materials|length }})</button>
-        <button class="tab" onclick="showTab('students')">Students ({{ students|length }})</button>
+        <button class="tab active" onclick="showTab('attendance')">Attendance ({{ attendance_records|length'] }})</button>
+        <button class="tab" onclick="showTab('exams')">Exam Schedule ({{ exam_schedules|length'] }})</button>
+        <button class="tab" onclick="showTab('results')">Exam Results ({{ exam_results|length'] }})</button>
+        <button class="tab" onclick="showTab('materials')">Study Materials ({{ study_materials|length'] }})</button>
+        <button class="tab" onclick="showTab('students')">Students ({{ students|length'] }})</button>
     </div>
     
     <!-- Attendance Tab -->
@@ -210,13 +210,13 @@
                 <tbody>
                     {% for record in attendance_records %}
                     <tr>
-                        <td>{{ record.attendance_id }}</td>
-                        <td>{{ record.student_id }}</td>
-                        <td>{{ record.batch_id }}</td>
-                        <td>{{ record.date }}</td>
-                        <td>{{ record.status }}</td>
+                        <td>{{ record['attendance_id'] }}</td>
+                        <td>{{ record['student_id'] }}</td>
+                        <td>{{ record['batch_id'] }}</td>
+                        <td>{{ record['date'] }}</td>
+                        <td>{{ record['status'] }}</td>
                         <td>
-                            <a href="{{ url_for('delete_attendance', attendance_id=record.attendance_id) }}" 
+                            <a href="{{ url_for('delete_attendance', attendance_id=record.attendance_id)'] }}" 
                                onclick="return confirm('Are you sure?')" 
                                class="btn-delete">Delete</a>
                         </td>
@@ -246,14 +246,14 @@
                 <tbody>
                     {% for exam in exam_schedules %}
                     <tr>
-                        <td>{{ exam.exam_id }}</td>
-                        <td>{{ exam.exam_name }}</td>
-                        <td>{{ exam.batch_id }}</td>
-                        <td>{{ exam.exam_date }}</td>
-                        <td>{{ exam.exam_time }}</td>
-                        <td>{{ exam.duration }}</td>
+                        <td>{{ exam['exam_id'] }}</td>
+                        <td>{{ exam['exam_name'] }}</td>
+                        <td>{{ exam['batch_id'] }}</td>
+                        <td>{{ exam['exam_date'] }}</td>
+                        <td>{{ exam['exam_time'] }}</td>
+                        <td>{{ exam['duration'] }}</td>
                         <td>
-                            <a href="{{ url_for('delete_exam_schedule', exam_id=exam.exam_id) }}" 
+                            <a href="{{ url_for('delete_exam_schedule', exam=exam['exam_id'])'] }}" 
                                onclick="return confirm('Are you sure?')" 
                                class="btn-delete">Delete</a>
                         </td>
@@ -283,14 +283,14 @@
                 <tbody>
                     {% for result in exam_results %}
                     <tr>
-                        <td>{{ result.result_id }}</td>
-                        <td>{{ result.exam_id }}</td>
-                        <td>{{ result.student_id }}</td>
-                        <td>{{ result.marks_obtained }}</td>
-                        <td>{{ result.total_marks }}</td>
-                        <td>{{ result.grade }}</td>
+                        <td>{{ result['result_id'] }}</td>
+                        <td>{{ result['exam_id'] }}</td>
+                        <td>{{ result['student_id'] }}</td>
+                        <td>{{ result['marks_obtained'] }}</td>
+                        <td>{{ result['total_marks'] }}</td>
+                        <td>{{ result['grade'] }}</td>
                         <td>
-                            <a href="{{ url_for('delete_exam_result', result_id=result.result_id) }}" 
+                            <a href="{{ url_for('delete_exam_result', result_id=result.result_id)'] }}" 
                                onclick="return confirm('Are you sure?')" 
                                class="btn-delete">Delete</a>
                         </td>
@@ -306,18 +306,18 @@
         <button class="btn-primary" onclick="showModal('materialModal')">+ Upload Material</button>
         {% for material in study_materials %}
         <div class="record-item">
-            <h4>{{ material.title }}</h4>
-            <p><strong>Description:</strong> {{ material.description }}</p>
-            <p><strong>Batch:</strong> {{ material.batch_id }}</p>
-            <p><strong>Uploaded:</strong> {{ material.uploaded_date.strftime('%Y-%m-%d') }}</p>
+            <h4>{{ material['title'] }}</h4>
+            <p><strong>Description:</strong> {{ material['description'] }}</p>
+            <p><strong>Batch:</strong> {{ material['batch_id'] }}</p>
+            <p><strong>Uploaded:</strong> {{ material['uploaded_date.strftime('%Y-%m-%d')'] }}</p>
             <details style="margin-top: 1rem;">
                 <summary style="cursor: pointer; color: #1e3c72; font-weight: bold;">View Content</summary>
                 <div style="margin-top: 1rem; padding: 1rem; background: #fff; border-radius: 5px;">
-                    {{ material.content }}
+                    {{ material['content'] }}
                 </div>
             </details>
             <div style="margin-top: 1rem;">
-                <a href="{{ url_for('delete_study_material', material_id=material.material_id) }}" 
+                <a href="{{ url_for('delete_study_material', material_id=str(material['_id']))'] }}" 
                    onclick="return confirm('Are you sure?')" 
                    class="btn-delete">Delete</a>
             </div>
@@ -342,12 +342,12 @@
                 <tbody>
                     {% for student in students %}
                     <tr>
-                        <td>{{ student.student_id }}</td>
-                        <td>{{ student.student_name }}</td>
-                        <td>{{ student.gender }}</td>
-                        <td>{{ student.email_id }}</td>
-                        <td>{{ student.contact_number }}</td>
-                        <td>{{ student.category }}</td>
+                        <td>{{ student['student_id'] }}</td>
+                        <td>{{ student['student_name'] }}</td>
+                        <td>{{ student['gender'] }}</td>
+                        <td>{{ student['email_id'] }}</td>
+                        <td>{{ student['contact_number'] }}</td>
+                        <td>{{ student['category'] }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -360,7 +360,7 @@
 <div id="attendanceModal" class="modal">
     <div class="modal-content">
         <h2>Mark Attendance</h2>
-        <form method="POST" action="{{ url_for('add_attendance') }}">
+        <form method="POST" action="{{ url_for('add_attendance')'] }}">
             <div class="form-grid">
                 <div class="form-group">
                     <label>Student ID</label>
@@ -370,7 +370,7 @@
                     <label>Batch ID</label>
                     <select name="batch_id" required>
                         {% for batch in batches %}
-                        <option value="{{ batch.batch_id }}">{{ batch.batch_id }}</option>
+                        <option value="{{ batch.batch_id'] }}">{{ batch.batch_id'] }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -397,7 +397,7 @@
 <div id="examModal" class="modal">
     <div class="modal-content">
         <h2>Schedule Exam</h2>
-        <form method="POST" action="{{ url_for('add_exam_schedule') }}">
+        <form method="POST" action="{{ url_for('add_exam_schedule')'] }}">
             <div class="form-group">
                 <label>Exam Name</label>
                 <input type="text" name="exam_name" required>
@@ -407,7 +407,7 @@
                     <label>Batch ID</label>
                     <select name="batch_id" required>
                         {% for batch in batches %}
-                        <option value="{{ batch.batch_id }}">{{ batch.batch_id }}</option>
+                        <option value="{{ batch.batch_id'] }}">{{ batch.batch_id'] }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -434,13 +434,13 @@
 <div id="resultModal" class="modal">
     <div class="modal-content">
         <h2>Add Exam Result</h2>
-        <form method="POST" action="{{ url_for('add_exam_result') }}">
+        <form method="POST" action="{{ url_for('add_exam_result')'] }}">
             <div class="form-grid">
                 <div class="form-group">
                     <label>Exam ID</label>
                     <select name="exam_id" required>
                         {% for exam in exam_schedules %}
-                        <option value="{{ exam.exam_id }}">{{ exam.exam_id }} - {{ exam.exam_name }}</option>
+                        <option value="{{ exam['exam_id'] }}">{{ exam['exam_id'] }} - {{ exam['exam_name'] }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -479,7 +479,7 @@
 <div id="materialModal" class="modal">
     <div class="modal-content">
         <h2>Upload Study Material</h2>
-        <form method="POST" action="{{ url_for('add_study_material') }}">
+        <form method="POST" action="{{ url_for('add_study_material')'] }}">
             <div class="form-group">
                 <label>Title</label>
                 <input type="text" name="title" required>
@@ -488,7 +488,7 @@
                 <label>Batch ID</label>
                 <select name="batch_id" required>
                     {% for batch in batches %}
-                    <option value="{{ batch.batch_id }}">{{ batch.batch_id }}</option>
+                    <option value="{{ batch.batch_id'] }}">{{ batch.batch_id'] }}</option>
                     {% endfor %}
                 </select>
             </div>

@@ -214,16 +214,16 @@
                 <tbody>
                     {% for student in students %}
                     <tr>
-                        <td>{{ student.student_id }}</td>
-                        <td>{{ student.student_name }}</td>
-                        <td>{{ student.gender }}</td>
-                        <td>{{ student.email_id }}</td>
-                        <td>{{ student.contact_number }}</td>
-                        <td>{{ student.category }}</td>
-                        <td>{{ student.date_of_birth }}</td>
+                        <td>{{ student["student_id"] }}</td>
+                        <td>{{ student["student_name"] }}</td>
+                        <td>{{ student["gender"] }}</td>
+                        <td>{{ student["email_id"] }}</td>
+                        <td>{{ student["contact_number"] }}</td>
+                        <td>{{ student["category"] }}</td>
+                        <td>{{ student["date_of_birth"] }}</td>
                         <td>
-                            <button class="btn-action btn-edit" onclick="editStudent('{{ student.student_id }}', '{{ student.student_name }}', '{{ student.gender }}', '{{ student.email_id }}', '{{ student.contact_number }}', '{{ student.category }}', '{{ student.date_of_birth }}', '{{ student.address }}')">Edit</button>
-                            <a href="{{ url_for('delete_student', student_id=student.student_id) }}" 
+                            <button class="btn-action btn-edit" onclick="editStudent('{{ student["student_id"] }}', '{{ student["student_name"] }}', '{{ student["gender"] }}', '{{ student["email_id"] }}', '{{ student["contact_number"] }}', '{{ student["category"] }}', '{{ student["date_of_birth"] }}', '{{ student["address"] }}')">Edit</button>
+                            <a href="{{ url_for('delete_student', student_id=student['student_id']) }}" 
                                onclick="return confirm('Are you sure?')" 
                                class="btn-action btn-delete">Delete</a>
                         </td>
@@ -253,15 +253,15 @@
                 <tbody>
                     {% for fac in faculty %}
                     <tr>
-                        <td>{{ fac.faculty_id }}</td>
-                        <td>{{ fac.full_name }}</td>
-                        <td>{{ fac.education }}</td>
-                        <td>{{ fac.specialization }}</td>
-                        <td>{{ fac.category }}</td>
-                        <td>{{ fac.contact_details }}</td>
+                        <td>{{ fac["faculty_id }}</td>
+                        <td>{{ fac["full_name }}</td>
+                        <td>{{ fac["education }}</td>
+                        <td>{{ fac["specialization }}</td>
+                        <td>{{ fac["category }}</td>
+                        <td>{{ fac["contact_details }}</td>
                         <td>
-                            <button class="btn-action btn-edit" onclick="editFaculty('{{ fac.faculty_id }}', '{{ fac.full_name }}', '{{ fac.education }}', '{{ fac.specialization }}', '{{ fac.category }}', '{{ fac.contact_details }}')">Edit</button>
-                            <a href="{{ url_for('delete_faculty', faculty_id=fac.faculty_id) }}" 
+                            <button class="btn-action btn-edit" onclick="editFaculty('{{ fac["faculty_id }}', '{{ fac["full_name }}', '{{ fac["education }}', '{{ fac["specialization }}', '{{ fac["category }}', '{{ fac["contact_details }}')">Edit</button>
+                            <a href="{{ url_for('delete_faculty', faculty_id=fac['faculty_id']) }}" 
                                onclick="return confirm('Are you sure?')" 
                                class="btn-action btn-delete">Delete</a>
                         </td>
@@ -290,14 +290,14 @@
                 <tbody>
                     {% for course in courses %}
                     <tr>
-                        <td>{{ course.course_code }}</td>
-                        <td>{{ course.course_name }}</td>
-                        <td>{{ course.course_category }}</td>
-                        <td>{{ course.course_duration }}</td>
-                        <td>₹{{ course.course_fees }}</td>
+                        <td>{{ course["course_code"] }}</td>
+                        <td>{{ course["course_name"] }}</td>
+                        <td>{{ course["course_category"] }}</td>
+                        <td>{{ course["course_duration"] }}</td>
+                        <td>₹{{ course["course_fees"] }}</td>
                         <td>
-                            <button class="btn-action btn-edit" onclick="editCourse('{{ course.course_code }}', '{{ course.course_name }}', '{{ course.course_category }}', '{{ course.course_description }}', '{{ course.course_duration }}', '{{ course.course_fees }}')">Edit</button>
-                            <a href="{{ url_for('delete_course', course_code=course.course_code) }}" 
+                            <button class="btn-action btn-edit" onclick="editCourse('{{ course["course_code"] }}', '{{ course["course_name"] }}', '{{ course["course_category"] }}', '{{ course["course_description"] }}', '{{ course["course_duration"] }}', '{{ course["course_fees"] }}')">Edit</button>
+                            <a href="{{ url_for('delete_course', course_code=course['course_code']) }}" 
                                onclick="return confirm('Are you sure?')" 
                                class="btn-action btn-delete">Delete</a>
                         </td>
@@ -326,14 +326,14 @@
                 <tbody>
                     {% for batch in batches %}
                     <tr>
-                        <td>{{ batch.batch_id }}</td>
-                        <td>{{ batch.start_date }}</td>
-                        <td>{{ batch.end_date }}</td>
-                        <td>{{ batch.timings }}</td>
-                        <td>{{ batch.course_code }}</td>
+                        <td>{{ batch["batch_id }}</td>
+                        <td>{{ batch["start_date }}</td>
+                        <td>{{ batch["end_date }}</td>
+                        <td>{{ batch["timings }}</td>
+                        <td>{{ batch["course_code }}</td>
                         <td>
-                            <button class="btn-action btn-edit" onclick="editBatch('{{ batch.batch_id }}', '{{ batch.start_date }}', '{{ batch.end_date }}', '{{ batch.timings }}', '{{ batch.course_code }}')">Edit</button>
-                            <a href="{{ url_for('delete_batch', batch_id=batch.batch_id) }}" 
+                            <button class="btn-action btn-edit" onclick="editBatch('{{ batch["batch_id }}', '{{ batch["start_date }}', '{{ batch["end_date }}', '{{ batch["timings }}', '{{ batch["course_code }}')">Edit</button>
+                            <a href="{{ url_for('delete_batch', batch_id=batch['batch_id']) }}" 
                                onclick="return confirm('Are you sure?')" 
                                class="btn-action btn-delete">Delete</a>
                         </td>
@@ -362,13 +362,13 @@
                 <tbody>
                     {% for enrollment in enrollments %}
                     <tr>
-                        <td>{{ enrollment.enrollment_id }}</td>
-                        <td>{{ enrollment.student_id }}</td>
-                        <td>{{ enrollment.batch_id }}</td>
-                        <td>{{ enrollment.enrollment_date }}</td>
-                        <td>{{ enrollment.status }}</td>
+                        <td>{{ enrollment["enrollment_id }}</td>
+                        <td>{{ enrollment["student_id }}</td>
+                        <td>{{ enrollment["batch_id }}</td>
+                        <td>{{ enrollment["enrollment_date }}</td>
+                        <td>{{ enrollment["status }}</td>
                         <td>
-                            <a href="{{ url_for('delete_enrollment', enrollment_id=enrollment.enrollment_id) }}" 
+                            <a href="{{ url_for('delete_enrollment', enrollment_id=str(enrollment['_id'])) }}" 
                                onclick="return confirm('Are you sure?')" 
                                class="btn-action btn-delete">Delete</a>
                         </td>
@@ -398,14 +398,14 @@
                 <tbody>
                     {% for payment in payments %}
                     <tr>
-                        <td>{{ payment.transaction_id }}</td>
-                        <td>{{ payment.student_id }}</td>
-                        <td>₹{{ payment.amount }}</td>
-                        <td>{{ payment.payment_date }}</td>
-                        <td>{{ payment.payment_mode }}</td>
-                        <td>{{ payment.status }}</td>
+                        <td>{{ payment["transaction_id }}</td>
+                        <td>{{ payment["student_id }}</td>
+                        <td>₹{{ payment["amount }}</td>
+                        <td>{{ payment["payment_date }}</td>
+                        <td>{{ payment["payment_mode }}</td>
+                        <td>{{ payment["status }}</td>
                         <td>
-                            <a href="{{ url_for('delete_payment', transaction_id=payment.transaction_id) }}" 
+                            <a href="{{ url_for('delete_payment', transaction_id=str(payment['_id'])) }}" 
                                onclick="return confirm('Are you sure?')" 
                                class="btn-action btn-delete">Delete</a>
                         </td>
