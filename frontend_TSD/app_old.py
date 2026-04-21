@@ -4,13 +4,12 @@ from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 import csv
-from bson import ObjectId
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key-here'
 
 # MongoDB Configuration - Replace with your actual MongoDB URI
-MONGO_URI = 'mongodb+srv://priyankadhamande2698_db_user:TSD%402026@cluster.yyr0six.mongodb.net/?appName=cluster'  # e.g., 'mongodb://localhost:27017/' or cloud URI
+MONGO_URI = 'your-mongodb-connection-string'  # e.g., 'mongodb://localhost:27017/' or cloud URI
 client = MongoClient(MONGO_URI)
 db = client['coaching_management']
 
@@ -380,7 +379,7 @@ def delete_enrollment(enrollment_id):
     if 'role' not in session or session['role'] != 'admin':
         return redirect(url_for('login', role='admin'))
     
-    enrollments_collection.delete_one({'_id': ObjectId(enrollment_id)})
+    enrollments_collection.delete_one({'_id': enrollment_id})
     
     flash('Enrollment deleted successfully', 'success')
     return redirect(url_for('admin_dashboard'))
@@ -424,7 +423,7 @@ def delete_payment(transaction_id):
     if 'role' not in session or session['role'] != 'admin':
         return redirect(url_for('login', role='admin'))
     
-    payments_collection.delete_one({'_id': ObjectId(transaction_id)})
+    payments_collection.delete_one({'_id': transaction_id})
     
     flash('Payment deleted successfully', 'success')
     return redirect(url_for('admin_dashboard'))

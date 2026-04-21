@@ -165,38 +165,38 @@
 <div class="dashboard">
     <div class="dashboard-header">
         <h1>Student Dashboard</h1>
-        <p>Welcome, {{ student.student_name if student else session.username }}!</p>
+        <p>Welcome, {{ student['student_name if student else session.username'] }}!</p>
     </div>
     
     <div class="stats-grid">
         <div class="stat-card">
             <h3>📊 Attendance</h3>
-            <div class="number">{{ student.attendance if student else 0 }}%</div>
+            <div class="number">{{ student['attendance if student else 0'] }}%</div>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: {{ student.attendance if student else 0 }}%">
-                    {{ student.attendance if student else 0 }}%
+                <div class="progress-fill" style="width: {{ student['attendance if student else 0'] }}%">
+                    {{ student['attendance if student else 0'] }}%
                 </div>
             </div>
         </div>
         
         <div class="stat-card">
             <h3>🎯 Course Progress</h3>
-            <div class="number">{{ student.progress if student else 0 }}%</div>
+            <div class="number">{{ student['progress if student else 0'] }}%</div>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: {{ student.progress if student else 0 }}%">
-                    {{ student.progress if student else 0 }}%
+                <div class="progress-fill" style="width: {{ student['progress if student else 0'] }}%">
+                    {{ student['progress if student else 0'] }}%
                 </div>
             </div>
         </div>
         
         <div class="stat-card">
             <h3>📝 Exams</h3>
-            <div class="number">{{ exam_schedules|length }}</div>
+            <div class="number">{{ exam_schedules|length'] }}</div>
         </div>
         
         <div class="stat-card">
             <h3>📚 Materials</h3>
-            <div class="number">{{ study_materials|length }}</div>
+            <div class="number">{{ study_materials|length'] }}</div>
         </div>
     </div>
     
@@ -206,35 +206,35 @@
         <div class="info-grid">
             <div class="info-item">
                 <label>Student ID</label>
-                <p>{{ student.student_id }}</p>
+                <p>{{ student['student_id'] }}</p>
             </div>
             <div class="info-item">
                 <label>Name</label>
-                <p>{{ student.student_name }}</p>
+                <p>{{ student['student_name'] }}</p>
             </div>
             <div class="info-item">
                 <label>Gender</label>
-                <p>{{ student.gender }}</p>
+                <p>{{ student['gender'] }}</p>
             </div>
             <div class="info-item">
                 <label>Date of Birth</label>
-                <p>{{ student.date_of_birth }}</p>
+                <p>{{ student['date_of_birth'] }}</p>
             </div>
             <div class="info-item">
                 <label>Category</label>
-                <p>{{ student.category }}</p>
+                <p>{{ student['category'] }}</p>
             </div>
             <div class="info-item">
                 <label>Email</label>
-                <p>{{ student.email_id }}</p>
+                <p>{{ student['email_id'] }}</p>
             </div>
             <div class="info-item">
                 <label>Contact</label>
-                <p>{{ student.contact_number }}</p>
+                <p>{{ student['contact_number'] }}</p>
             </div>
             <div class="info-item" style="grid-column: 1 / -1;">
                 <label>Address</label>
-                <p>{{ student.address }}</p>
+                <p>{{ student['address'] }}</p>
             </div>
         </div>
     </div>
@@ -245,11 +245,11 @@
         {% if batches %}
             {% for batch in batches %}
             <div class="batch-item">
-                <h4>Batch {{ batch.batch_id }}</h4>
-                <p><strong>Courses:</strong> {{ batch.course_code }}</p>
+                <h4>Batch {{ batch['batch_id'] }}</h4>
+                <p><strong>Courses:</strong> {{ batch['course_code'] }}</p>
                 <div style="margin-top: 1rem;">
-                    <span class="date-badge">📅 {{ batch.start_date }} to {{ batch.end_date }}</span>
-                    <span class="date-badge">🕐 {{ batch.timings }}</span>
+                    <span class="date-badge">📅 {{ batch['start_date'] }} to {{ batch['end_date'] }}</span>
+                    <span class="date-badge">🕐 {{ batch['timings'] }}</span>
                 </div>
             </div>
             {% endfor %}
@@ -273,9 +273,9 @@
                     <tbody>
                         {% for record in attendance_records %}
                         <tr>
-                            <td>{{ record.date }}</td>
-                            <td>{{ record.batch_id }}</td>
-                            <td>{{ record.status }}</td>
+                            <td>{{ record.date'] }}</td>
+                            <td>{{ record.batch_id'] }}</td>
+                            <td>{{ record.status'] }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -291,17 +291,17 @@
         {% if study_materials %}
             {% for material in study_materials %}
             <div class="data-item">
-                <h4>{{ material.title }}</h4>
-                <p><strong>Description:</strong> {{ material.description }}</p>
-                <p><strong>Batch:</strong> {{ material.batch_id }}</p>
+                <h4>{{ material['title'] }}</h4>
+                <p><strong>Description:</strong> {{ material['description'] }}</p>
+                <p><strong>Batch:</strong> {{ material['batch_id'] }}</p>
                 <details style="margin-top: 1rem;">
                     <summary style="cursor: pointer; color: #1e3c72; font-weight: bold;">View Content</summary>
                     <div style="margin-top: 1rem; padding: 1rem; background: #fff; border-radius: 5px;">
-                        {{ material.content }}
+                        {{ material['content'] }}
                     </div>
                 </details>
                 <div style="margin-top: 1rem;">
-                    <span class="date-badge">📅 Uploaded: {{ material.uploaded_date.strftime('%Y-%m-%d') }}</span>
+                    <span class="date-badge">📅 Uploaded: {{ material['uploaded_date.strftime('%Y-%m-%d')'] }}</span>
                 </div>
             </div>
             {% endfor %}
@@ -327,11 +327,11 @@
                     <tbody>
                         {% for payment in payments %}
                         <tr>
-                            <td>{{ payment.transaction_id }}</td>
-                            <td>₹{{ payment.amount }}</td>
-                            <td>{{ payment.payment_date }}</td>
-                            <td>{{ payment.payment_mode }}</td>
-                            <td>{{ payment.status }}</td>
+                            <td>{{ payment['transaction_id'] }}</td>
+                            <td>₹{{ payment['amount'] }}</td>
+                            <td>{{ payment['payment_date'] }}</td>
+                            <td>{{ payment['payment_mode'] }}</td>
+                            <td>{{ payment['status'] }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -358,10 +358,10 @@
                     <tbody>
                         {% for enrollment in enrollments %}
                         <tr>
-                            <td>{{ enrollment.enrollment_id }}</td>
-                            <td>{{ enrollment.batch_id }}</td>
-                            <td>{{ enrollment.enrollment_date }}</td>
-                            <td>{{ enrollment.status }}</td>
+                            <td>{{ enrollment['enrollment_id'] }}</td>
+                            <td>{{ enrollment['batch_id'] }}</td>
+                            <td>{{ enrollment['enrollment_date'] }}</td>
+                            <td>{{ enrollment['status'] }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
